@@ -43,5 +43,5 @@ app.use(express.static(path.join(__dirname,'public')))
 routes(app);
 
 app.listen(process.env.PORT ||3000,function(){
-    console.log('Server started .....')
+    console.log('Server started ......')
 })

@@ -7,7 +7,7 @@ const routes=require('./routes.js');
 //local mongodb connection
 //mongoose.connect('mongodb://localhost:27017/floodPortalDB');
 
-//mongodb atlas connection
+//mongodb Atlas connection
 var mongoDB="mongodb+srv://cluster0-barww.mongodb.net/floodPortalDB?retryWrites=true&w=majority"
 var mongoDBcreds={"user": "sijils", "pass": "oliverqu33ndb1"};
 mongoose.connect(mongoDB,mongoDBcreds);

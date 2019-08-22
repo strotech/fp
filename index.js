@@ -1,8 +1,17 @@
 const express = require('express');
 const path=require('path');
 const mongoose=require('mongoose');
+const bodyParser=require('body-parser');
+const routes=require('./routes.js');
 
-mongoose.connect('mongodb://localhost:27017/teamDB');
+//local mongodb connection
+//mongoose.connect('mongodb://localhost:27017/floodPortalDB');
+
+//mongodb atlas connection
+var mongoDB="mongodb+srv://cluster0-barww.mongodb.net/floodPortalDB?retryWrites=true&w=majority"
+var mongoDBcreds={"user": "sijils", "pass": "oliverqu33ndb1"};
+mongoose.connect(mongoDB,mongoDBcreds);
+
 let db=mongoose.connection;
 
 //check for DB errors
@@ -15,9 +24,6 @@ db.once('open',function(){
     console.log('connected to mongo db')
 })
 
-//bring in models
-let teamActivities=require('./models/activitiesCollection');
-
 //init app
 const app= express();
 
@@ -25,28 +31,16 @@ const app= express();
 app.set('views',path.join(__dirname,'views'));
 app.set ('view engine','pug')
 
-//home route
-app.get('/',function(req,res){
-    res.render('home',{
-        varSection:"Home",
-        project: "Automation and Performance team activity tracking"
-    })
-});
+//Body parser middleware
+//parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended:false}))
+//parse application/json
+app.use(bodyParser.json())
 
-//add route
-app.get('/dashboard',function(req,res){
-    teamActivities.find({},function(err,activitiesList){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('dashboard',{
-                varSection:"Dashboard",
-                activities:activitiesList
-            })
-        }
-    })
-    
-})
+//Set public folder
+app.use(express.static(path.join(__dirname,'public')))
+
+routes(app);
 
 app.listen(3000,function(){
     console.log('Server started on port 3000......')

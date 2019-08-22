@@ -5,22 +5,35 @@ block content
     table(style='width:100%', border='1')
         tr
             th Sl No.
-            th Activity
-            th Created Date
-            th Start Date
-            th End Date
+            th Date
+            th Latitude
+            th Longitude
+            th Amenities Required
             th Status
-            th Remarks
-            th Assignee
 
-        each activity,i in activities
+        each detail,i in details
             tr
-                td= activity.slNo
-                td= activity.activity
-                td= activity.createdDate
-                td= activity.startDate
-                td= activity.endDate
-                td= activity.status
-                td= activity.remarks
-                td= activity.assignee
+                td= detail.slNo
+                td= detail.date
+                td= detail.latitude
+                td= detail.longitude
+                td= detail.amenityReq
+                td= detail.status
+
+
+    h2 You can add new details here
+    form(method='POST',action='/dashboard')
+        #form-group
+            label Latitude
+            input.form-control(name='latitude')
+        #form-group
+            label Longitude
+            input.form-control(name='longitude',type='text')
+        #form-group
+            label Amenities required
+            input.form-control(name='amenityReq',type='text')
+        #form-group
+            label Status
+            input.form-control(name='status',type='text')
+        input.btn.btn-primary(type='submit',value='Submit')
             
